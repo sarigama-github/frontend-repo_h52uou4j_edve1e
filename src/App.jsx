@@ -1,28 +1,60 @@
-import { useState } from 'react'
+import { useEffect } from 'react';
+import Hero from './components/Hero';
+import Team from './components/Team';
+import { Navbar, Footer } from './components/NavFooter';
+import { AboutSection, ServicesSection, FocusAreasSection, ProjectsSection, ContactSection } from './components/Sections';
 
 function App() {
-  const [count, setCount] = useState(0)
+  useEffect(() => {
+    // Basic SEO metadata without extra packages
+    document.title = 'Arohan — Partners for Advancing Health Systems';
+
+    const ensureMeta = (name, content) => {
+      let el = document.querySelector(`meta[name="${name}"]`);
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute('name', name);
+        document.head.appendChild(el);
+      }
+      el.setAttribute('content', content);
+    };
+
+    ensureMeta(
+      'description',
+      'AROHAN Partners collaborates with governments, funders, and communities across India and Southeast Asia to strengthen primary health care through co-created, locally rooted solutions.'
+    );
+
+    const og = (property, content) => {
+      let el = document.querySelector(`meta[property="${property}"]`);
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute('property', property);
+        document.head.appendChild(el);
+      }
+      el.setAttribute('content', content);
+    };
+
+    og('og:title', 'Arohan — Partners for Advancing Health Systems');
+    og('og:description', 'Strengthening primary health care with inclusive, locally rooted solutions.');
+    og('og:type', 'website');
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Vibe Coding Platform
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Your AI-powered development environment
-        </p>
-        <div className="text-center">
-          <button
-            onClick={() => setCount(count + 1)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Count is {count}
-          </button>
-        </div>
-      </div>
+    <div className="min-h-screen text-gray-900 scroll-smooth">
+      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 bg-white border border-gray-300 rounded px-3 py-2 shadow">Skip to content</a>
+      <Navbar />
+      <main id="main" className="pt-16 [scroll-margin-top:5rem]">
+        <Hero />
+        <AboutSection />
+        <ServicesSection />
+        <FocusAreasSection />
+        <Team />
+        <ProjectsSection />
+        <ContactSection />
+      </main>
+      <Footer />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
